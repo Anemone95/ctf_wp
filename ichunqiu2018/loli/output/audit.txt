@@ -1,0 +1,23 @@
+Foremost version 1.5.7 by Jesse Kornblum, Kris Kendall, and Nick Mikus
+Audit File
+
+Foremost started at Sun Jul 22 10:01:34 2018
+Invocation: foremost xor.png 
+Output directory: /mnt/d/Store/document/all_my_work/temp/ichunqiu/loli/output
+Configuration file: /etc/foremost.conf
+------------------------------------------------------------------
+File: xor.png
+Start: Sun Jul 22 10:01:34 2018
+Length: 3 MB (3471747 bytes)
+ 
+Num	 Name (bs=512)	       Size	 File Offset	 Comment 
+
+0:	00006777.png 	       1 KB 	    3470094 	  (100 x 100)
+Finish: Sun Jul 22 10:01:34 2018
+
+1 FILES EXTRACTED
+	
+png:= 1
+------------------------------------------------------------------
+
+Foremost finished at Sun Jul 22 10:01:34 2018
