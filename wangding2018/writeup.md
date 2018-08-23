@@ -1,3 +1,24 @@
+2018年网鼎杯，emmm，好不容易看到个算法题还花了很长时间，太难过了T_T
+# 二叉树
+
+## 0x01
+
+下载题目后，得到一张红黑树的图片和README.txt. 将readme进行base64解码可以得到hit：
+
+```
+1.这是一棵红黑树
+2.树从1-59上的果子依次为 ek`~3c:gf017b744/b38fd~abm7g5489e2{lf6z8d16hae`98}b|-21m.e:
+3.依次从树上取走第 18,35,53,50,14,28,19,6,54,36 个果子,过程中保持红黑树性质不变
+4.tmpflag为第 8,56,47,37,52,34,17,8,8,29,7,47,40,57,46,24,34,34,57,29,22,5,16,57,24,29,8,12,57,12,12,21,33,34,55,51,22,45,34,31,1,23 个果子
+5.flag为 tmpflag 红色果子 ASCII +1 , 黑色果子 ASCII-1
+6.让我们愉快的开始获取flag吧
+```
+
+## 0x02
+
+经过提示，首先需要找一份红黑树的实现，并且按照图片构造一颗红黑树(如果不按图片会出现多解情况，因为这点被坑惨)，以下给出一个很好的python版红黑树实现
+
+```python
 # -*- coding: utf-8 -*-
 BLACK = 0
 RED = 1
@@ -321,16 +342,19 @@ class rbtree(object):
         else:
             u.p.right = v
         v.p = u.p
-
-
+```
+这段红黑树的果子为rbnode对象，整个树根据果子的key构建，果子的value可以可以放我们字符串的字符。
+默认的红黑树时通过不断加入节点自动生成的，但是加入果子的顺序不同会造成树以及果子的颜色的不同，可以看到我对标准的红黑树构造函数做了修改，这样我们可以根据给出的图片（1.jpg）构造一个红黑树。
+```python
 if __name__ == '__main__':
-
+	#提示2，果子的value
     _str=" ek`~3c:gf017b744/b38fd~abm7g5489e2{lf6z8d16hae`98}b|-21m.e:"
 
     nodes=[_NONE]
     for i in range(1,60):
         nodes.append( rbnode(key=i,value=_str[i]) )
         # node, color, l,r,p
+    # 录入图片红黑树的信息
     tree=[
             [1,BLACK,0,2,3],
             [2,RED,0,0,1],
@@ -397,31 +421,83 @@ if __name__ == '__main__':
         nodes[tree[i][0]].left=nodes[tree[i][2]]
         nodes[tree[i][0]].right=nodes[tree[i][3]]
         nodes[tree[i][0]].p=nodes[tree[i][4]]
+    # 打印二叉树
     tr=rbtree(nodes=nodes)
+    print(tr)
+```
 
+**备注：**
+
+这真的是一个红黑树的一个很好的实现，还可以可视化的打印整棵树，这里给出正常的构造树的方法，只需给出果子的key和value：
+
+```python
+if __name__ == '__main__':
+    tr=rbtree(data={'1':'1','2':'2'}.items())
+    print(tr)
+```
+
+
+## 0x03
+
+根据提示3，从树上取走第 18,35,53,50,14,28,19,6,54,36 个果子：
+
+```python
     for i in [18,35,53,50,14,28,19,6,54,36]:
         tr.delete(tr.force_search(i))
 
-    print(tr)
+```
 
+## 0x04
+
+根据提示4和5，获取第[8,56,47,37,52,34,17,8,8,29,7,47,40,57,46,24,34,34,57,29,22,5,16,57,24,29,8,12,57,12,12,21,33,34,55,51,22,45,34,31,1,23]果子的值，并且按照颜色对其ascii+1或-1，即可得到flag
+
+```python
     s=""
     for i in [8,56,47,37,52,34,17,8,8,29,7,47,40,57,46,24,34,34,57,29,22,5,16,57,24,29,8,12,57,12,12,21,33,34,55,51,22,45,34,31,1,23]:
         node=tr.force_search(i)
         if node.color==BLACK:
             s+=chr(ord(node.value)-1)
         else:
-            s+=(chr(ord(node.value)+1))
+            s+=chr(ord(node.value)+1)
     print(s)
-        #  s=s+node.value
-    #  print(s)
-        #  print(.value)
+```
 
-    #  for c in 'fghij':
-        #  nd = tr.force_search(c)
-        #  nd.value += 1
-    #  print("\nafter insert from a string:")
-    #  print(tr)
-    #  while tr.root!=tr.nil:
-        #  tr.delete(tr.root)
-    #  print("\nafter delete all node:")
-    #  print(tr)
+算出flag为：
+flag{10ff49a7-db11-4e43-b4f6-66ef12ceb19d}
+
+# martricks
+刚拿到这题就感觉跟符号执行有关系，可惜没有贯彻思想继续做下去，不过解法蛮简单的，这里简单记录一下，也是当学习一下angr吧：
+
+## 0x01
+
+拿到题目ida打开，大概F5看一下，有一个判断，如果等于0就congrats否则wrong，那么记下这两处字符串的地址。
+
+![1535025943800](C:\Users\x5651\Documents\all_my_work\ctf_wp\wangding2018\assets\1535025943800.png)
+
+## 0x02
+
+接下来就可以用angr调用该文件，根据符号执行让我们执行到400A84地址，其中避免经过400A90地址
+
+```python
+import angr
+
+
+def angr_example():
+    p = angr.Project("./martricks")
+    simgr = p.factory.simulation_manager(p.factory.full_init_state())
+    simgr.explore(find=0x400A84, avoid=0x400A90)  # 成功路径，失败路径
+
+    return simgr.found[0].posix.dumps(0).strip('\0\n')
+
+
+if __name__ == '__main__':
+    print angr_example()
+```
+
+等待一会后得到flag：
+
+flag{Everyth1n_th4t_kill5_m3_m4kes_m3_fee1_aliv3}
+
+
+
+**注：** 所有程序题目已经上传至GitHub：https://github.com/Anemone95/ctf_wp/tree/master/wangding2018
