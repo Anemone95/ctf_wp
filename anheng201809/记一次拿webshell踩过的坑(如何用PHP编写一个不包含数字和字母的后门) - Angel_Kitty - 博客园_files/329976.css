@@ -1,0 +1,305 @@
+body {
+    color: #000;
+    background: url(https://i.loli.net/2017/10/14/59e2065123072.jpg) fixed;
+    background-size: cover;
+    background-repeat: repeat;
+    font-family: "微软雅黑","Helvetica Neue",Helvetica,Verdana,Arial,sans-serif;
+    font-size: 12px;
+    min-height: 101%;
+}
+#blogTitle h1 {
+    font-size: 50px;
+    font-family: Consolas;
+    font-weight: bold;
+    font-style: italic;
+    margin-top: 20px;
+}
+.catListTitle {
+    margin-top: 21px;
+    margin-bottom: 10.5px;
+    text-align: left;
+    border-left: 10px solid rgba(82, 168, 236, 0.8);
+    padding: 5px 0 5px 10px;
+    background-color: rgba(245,245,245,0.3);
+}
+#home {
+    margin: 0 auto;
+    width: 65%;
+    min-width: 950px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+}
+.newsItem, .catListEssay, .catListLink, .catListNoteBook, .catListTag, .catListPostCategory, .catListPostArchive, .catListImageCategory, .catListArticleArchive, .catListView, .catListFeedback, .mySearch, .catListComment, .catListBlogRank, .catList, .catListArticleCategory {
+    background: none;
+    margin-bottom: 35px;
+    word-wrap: break-word;
+}
+#blog-calendar td {
+    font-size: 12px;
+    font-family: Consolas;
+}
+.input_my_zzk {
+    border: 1px solid #ccc;
+    background: none;
+    width: 100%;
+    height: 25px;
+    padding-right: 30px;
+    padding-left: 5px;
+    outline: 0;
+}
+.CalDayHeader {
+    background: rgba(245,245,245,0.3) !important;
+    font-weight: 100;
+    color: #5E5F63;
+}
+.CalTitle {
+    background: none;
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0;
+    color: #FFF;
+}
+.CalTitle td {
+    background: rgba(245,245,245,0.3) !important;
+    border: 0px !important;
+    color: #5E5F63;
+    font-family: "Comic Sans MS";
+}
+a:link {
+    color: cornflowerblue;
+}
+a:visited {
+    color: cornflowerblue;
+}
+a:hover {
+    color:cadetblue;
+}
+a:active {
+    color:black;
+}
+.CalTodayDay {
+    background: rgba(247,247,247,0.3) !important;
+    color: #FFF;
+    font-weight: bold;
+}
+.cnblogs_code {
+    background-color: rgba(247,247,247,0.3);
+    font-family: Consolas !important;
+    font-size: 12px!important;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    overflow: auto;
+    margin: 5px 0;
+    color: #000;
+}
+.cnblogs_code div {
+    background-color: rgba(247,247,247,0.3);
+}
+.cnblogs_code_collapse {
+    border-right: gray 1px solid;
+    border-top: gray 1px solid;
+    border-left: gray 1px solid;
+    border-bottom: gray 1px solid;
+    background-color: rgba(247,247,247,0.3);
+    padding: 2px;
+}
+blockquote {
+    background: rgba(247,247,247,0.3);
+    border: 2px solid #efefef;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.commentform input.author, div.commentform input.email, div.commentform input.url {
+    background-image: url(//static.cnblogs.com/images/icon_form.gif);
+    border: 1px solid white !important;
+    padding: 4px 4px 4px 30px;
+    width: 300px;
+    font-size: 13px;
+    background-color: rgba(247,247,247,0.3);
+}
+#comment_form_container .comment_textarea {
+    width: 362px;
+    height: 200px;
+    font-size: 13px;
+    padding: 8px;
+    margin-bottom: 10px;
+    color: #555;
+    border: 1px solid white;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background-color: rgba(247,247,247,0.3);
+}
+
+.cnblogs_code pre {
+font-family: Consolas !important;
+font-size: 12px!important;
+}
+.cnblogs_code span {
+font-family: Consolas !important;
+font-size: 12px!important;
+line-height: 1.5!important;
+}
+div#cnblogs_c2 {
+display: none;
+}
+div#cnblogs_c1 {
+display: none;
+}
+div#under_post_news {
+display: none;
+}
+div#ad_t2 {
+display: none;
+}
+div#under_post_kb {
+display: none;
+}
+.feedbackItem {
+    margin: 10px 5px 0px;
+    padding: 5px;
+    box-shadow: 0 0 10px 0 #AAA;
+}
+#topics .postTitle {
+    font-size:230%;
+}
+.postTitle a:link, .postTitle a:visited, .postTitle a:active {
+    color: #21759b;
+    transition: all 0.4s cubic-bezier(0, 0, 0.12, 1) 0s;
+}
+#cnblogs_post_body h2 {
+    border-left: 10px solid rgba(82, 168, 236, 0.3);
+    background: rgba(247,247,247, 0.3);
+    padding: 3px 10px;
+}
+#cnblogs_post_body h3{
+    border-left: 5px solid rgba(0, 235, 255, 0.3);
+    padding: 2px 5px;
+    background: rgba(247,247,247,0.3);
+}
+#cnblogs_post_body h4{
+    border-left: 5px solid rgba(222, 101, 114,0.3);
+    padding-left: 5px;
+    background: rgba(247,247,247,0.3);
+}
+#cnblogs_post_body h1{
+    background: rgba(247,247,247,0.3);
+    border-left: 15px solid rgba(0, 122, 255, 0.3);
+    padding: 3px 10px;
+    font-size: 175%;
+    border-right: 15px solid rgba(0, 122, 255, 0.3);
+}
+
+#cnblogs_post_body img{
+    max-width: 500px;
+}
+
+.buryit {
+    display: none;
+}
+#div_digg {
+    float: right;
+    position: fixed;
+    width: auto;
+    bottom: 10px;
+    left: 70%;
+    margin-bottom: 10px;
+    background: rgba(247,247,247,0.3);
+    margin-right: 30px;
+    font-size: 12px;
+    box-shadow: 0 0 10px 0 #AAA;
+    padding: 10px;
+    border: 2px solid rgba(82, 168, 236, 0.8);
+    text-align: center;
+    margin-top: 10px;
+}
+textarea {
+    background: rgba(247,247,247,0.3);
+}
+
+body{cursor:url('//www.005.tv/templets/muban/moe_style/image/cur/1.cur'),auto;}
+A{cursor:url('//www.005.tv/templets/muban/moe_style/image/cur/2.cur'),auto;}
+
+#navigatorTitleDiv
+{
+    padding: 3px;
+    position: fixed;
+    top:244px; 
+    right:304px;
+    font-weight:bold;
+    cursor:pointer;
+    background-color: antiquewhite;
+}
+
+#navigatorDiv 
+{
+    border-style:double;
+    padding: 10px;
+    padding-top:30px;
+    position: fixed;
+    top:240px; 
+    right:300px;
+    background-color: antiquewhite;
+}
+
+/*! Color themes for Google Code Prettify | MIT License | github.com/jmblog/color-themes-for-google-code-prettify */
+.pln{color:#4d4d4c}ol.linenums{margin-top:0;margin-bottom:0;color:#8e908c}li.L0,li.L1,li.L2,li.L3,li.L4,li.L5,li.L6,li.L7,li.L8,li.L9{padding-left:1em;background-color:#fff;list-style-type:decimal!important;}@media screen{.str{color:#718c00}.kwd{color:#8959a8}.com{color:#8e908c}.typ{color:#4271ae}.lit{color:#f5871f}.pun{color:#4d4d4c}.opn{color:#4d4d4c}.clo{color:#4d4d4c}.tag{color:#c82829}.atn{color:#f5871f}.atv{color:#3e999f}.dec{color:#f5871f}.var{color:#c82829}.fun{color:#4271ae}}
+
+/*下面是我设置背景色，字体大小和字体*/
+.cnblogs-markdown code{
+background:#fff!important;
+}
+.cnblogs_code,.cnblogs_code span,.cnblogs-markdown .hljs{
+    font-size:16px!important;
+}
+
+.syntaxhighlighter a, .syntaxhighlighter div, .syntaxhighlighter code, .syntaxhighlighter table, .syntaxhighlighter table td, .syntaxhighlighter table tr, .syntaxhighlighter table tbody, .syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea {
+    font-size: 16px!important;
+}
+
+.cnblogs_code, .cnblogs_code span, .cnblogs-markdown .hljs{
+font-family:consolas, "Source Code Pro", monaco, monospace !important;
+}
+
+/*评论头像以及旋转*/
+.feedbackCon img:hover {
+-webkit-transform: rotateZ(360deg);
+-moz-transform: rotateZ(360deg);
+-ms-transform: rotateZ(360deg);
+-o-transform: rotateZ(360deg);
+transform: rotateZ(360deg);
+}
+ 
+.feedbackCon img {
+border-radius: 40px;
+-webkit-transition: all 0.6s ease-out;
+-moz-transition: all 0.5s ease-out;
+-ms-transition: all 0.5s ease-out;
+-o-transition: all 0.5s ease-out;
+transition: all 0.5s ease-out;
+}
+
+#Copyright {
+    border: solid 1px #E5E5E5;
+    padding: 10px;
+    background: url(//www.cnblogs.com/images/cnblogs_com/Terrylee/147338/o_info.png) no-repeat scroll 1% 50%;
+    padding-left: 60px;
+}
+
+body.night {
+    background-color: #263238;
+    color: #aaa;
+body.night img {
+    filter: brightness(30%);
+}

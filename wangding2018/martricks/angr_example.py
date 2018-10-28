@@ -17,4 +17,4 @@ def angr_example():
     return simgr.found[0].posix.dumps(0).strip('\0\n')
 
 if __name__ == '__main__':
-    print main()
+    print angr_example()
