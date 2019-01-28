@@ -1,0 +1,24 @@
+Foremost version 1.5.7 by Jesse Kornblum, Kris Kendall, and Nick Mikus
+Audit File
+
+Foremost started at Sat Jan 26 06:38:53 2019
+Invocation: foremost zhu.jpg 
+Output directory: /media/vboxsf_temp/output
+Configuration file: /etc/foremost.conf
+------------------------------------------------------------------
+File: zhu.jpg
+Start: Sat Jan 26 06:38:53 2019
+Length: 3 MB (3351458 bytes)
+ 
+Num	 Name (bs=512)	       Size	 File Offset	 Comment 
+
+0:	00000025.jpg 	       6 KB 	      12834 	 
+1:	00005806.jpg 	     369 KB 	    2973168 	 
+Finish: Sat Jan 26 06:38:53 2019
+
+2 FILES EXTRACTED
+	
+jpg:= 2
+------------------------------------------------------------------
+
+Foremost finished at Sat Jan 26 06:38:53 2019
