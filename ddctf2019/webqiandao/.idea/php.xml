@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpProjectServersManager">
+    <servers>
+      <server host="127.0.0.1" id="8e01b785-3da8-4de2-8f5a-361ef5a1abaf" name="test" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$" remote-root="D:/Store/document/all_my_work/phpStudy/PHPTutorial/WWW/didictf" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
+</project>

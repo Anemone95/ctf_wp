@@ -472,7 +472,7 @@ flag{10ff49a7-db11-4e43-b4f6-66ef12ceb19d}
 
 拿到题目ida打开，大概F5看一下，有一个判断，如果等于0就congrats否则wrong，那么记下这两处字符串的地址。
 
-![1535025943800](C:\Users\x5651\Documents\all_my_work\ctf_wp\wangding2018\assets\1535025943800.png)
+![1535025943800](assets\1535025943800.png)
 
 ## 0x02
 
