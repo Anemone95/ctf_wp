@@ -53,7 +53,17 @@ SET PASSWORD='xxx' where username='admin'#anemone and password='real_password'
 http://39.100.83.188:8066/?action=auth&key=anemone&hashed_key=2d557c961d57999ffda3856b207df26d2f547a69d5fa8e8021555094d4744ec0
 ```
 
+# web6
 
+登陆之后会传回一个JWT的token，接着post paste时会将"iscc19 {token}"作为Authorization字段的值，验证身份。
+
+![1557923730145](writeup/1557923730145.png)
+
+解码得到加密算法(RS256)，载荷为`{"name":"anemone","priv":"other"}`，下面想办法搞到签名，在/static/js/common.js中有一个提示
+
+![1557923016047](writeup/1557923016047.png)
+
+那么访问<http://39.100.83.188:8053/pubkey/6a59db85ba811be6e64b5b2292e292a4>可以的得到公钥
 
 # 隐藏的信息
 
@@ -200,7 +210,13 @@ if __name__ == '__main__':
 
 用密码`0K_I_L0V3_Y0u!`解压得到flag：ISCC{S0rrY_W3_4R3_Ju5T_Fr1END}
 
+# 最危险的地方就是最安全的地方
 
+foremost图片，解压zip得到50个图片，检查50.jpg看到备注：
+
+![1558062213012](writeup/1558062213012.png)
+
+解密得到flag{15cC9012}，提交15cC9012
 
 # 无法运行的exe
 
@@ -221,28 +237,151 @@ checkfirst检测前8个数字是否为递增，前面的两个if-else为编译�
 
 ![1557662036708](writeup/1557662036708.png)
 
-checkAgain：
+checkAgain中，有两个变量自己调一下类型
 
-![1557661462368](writeup/1557661462368.png)
+![1557751329620](writeup/1557751329620.png)
 
-相当于
+直接看到逻辑：
 
-```python
-for i in range(0,8):
-    strbuf[4*i]=buf[i]-49
-```
-
-![1557667292962](writeup/1557667292962.png)
-
-这段反编译就不太好使了，动态调试可以看到是：
-
-```python
-idx0m1=buf[0]-'1'
-idx7m1=buf[7]-'1'
-idx1m1=buf[1]-'1'
-idx6m1=buf[0]-'1'
-```
+![1557751930106](writeup/1557751930106.png)
 
 接下来根据反编译的逻辑写脚本爆破就好了
 
-![1557667739793](writeup/1557667739793.png)
+```python
+from z3 import *
+
+def solve():
+    intarr=[1,2,3,4,5,6,7,8]
+    arr = [Int("i_{}".format(i)) for i in range(8)]
+    s = Solver()
+    for i in range(8):
+        s.add(0<arr[i], arr[i]<=8)
+    s.add(arr[0]+arr[7]-1-1==5)
+    s.add(arr[1]+arr[6]-1-1==12)
+    s.add(arr[0]<arr[7])
+    for k in range(1,8):
+        for l in range(0,k):
+            s.add(arr[l]!=arr[k])
+            s.add(intarr[k]-intarr[l]!=(arr[k]-arr[l]))
+            s.add(intarr[k]-intarr[l]!=(arr[l]-arr[k]))
+    print(s.check())
+    m=s.model()
+    for i in range(8):
+        print(i,m.evaluate(arr[i]))
+
+if __name__ == '__main__':
+    solve()
+```
+
+# 简单Python
+
+拿到pyc反编译，得到加密算法：
+
+```python
+import base64
+
+def encode(message):
+    s = ''
+    for i in message:
+        x = ord(i) ^ 32
+        x = x + 16
+        s += chr(x)
+
+    return base64.b64encode(s)
+
+correct = 'eYNzc2tjWV1gXFWPYGlTbQ=='
+flag = ''
+print('Input flag:')
+flag = raw_input()
+if encode(flag) == correct:
+    print('correct')
+else:
+    print('wrong')
+```
+
+反推得到解密算法：
+
+```python
+import base64
+
+def decode(en_msg):
+    raw_de=base64.b64decode(en_msg)
+    plain=''
+    for byte in raw_de:
+        x=byte-16
+        x=x^32
+        plain+=chr(x)
+    return plain
+
+def solve():
+    correct = 'eYNzc2tjWV1gXFWPYGlTbQ=='
+    print(decode(correct))
+
+if __name__ == '__main__':
+    solve()
+```
+
+# Rev01
+
+dnSpy反编译看到用户名密码
+
+![1557753560785](writeup/1557753560785.png)
+
+登陆看到flag{ST0RING_STAT1C_PA55WORDS_1N_FIL3S_1S_N0T_S3CUR3}
+
+![1557753549989](writeup/1557753549989.png)
+
+# 解密成绩单
+
+用ZipCenOp去除伪加密，接着反编译看到用户名密码，得到Flag ISCC{Y0u_F0UnD_ThE_P4SSW0RD!}
+
+![1558075641004](writeup/1558075641004.png)
+
+# High起来！
+
+1. 修复文件的PNG文件头，得到一个二维码，扫描得到：中口由羊口中中大中中中井，当铺密码解密
+
+   ```python
+   s = '中口由羊口中中大中中中井'
+   d = {'口':'0', '由':'1', '中':'2', '人':'3', '工':'4', '大':'5', '王':'6', '夫':'7', '井':'8', '羊':'9'}
+   result = ''
+   for i in s:
+       if i in d:
+           result += d[i]
+       else:
+           result += i
+   print(result)
+   ```
+
+   得到201902252228
+
+2. foremost从png中提取出一个mp3，用[MP3Stego](http://www.petitcolas.net/steganography/mp3stego/)解码（用法`./Decode.exe -X -P 201902252228 apple.mp3`），得到`&#102;&#108;&#97;&#103;&#123;&#80;&#114;&#69;&#116;&#84;&#121;&#95;&#49;&#83;&#99;&#67;&#57;&#48;&#49;&#50;&#95;&#103;&#79;&#48;&#100;&#125;`解码得到`flag{PrEtTy_1ScC9012_gO0d}`
+
+# Rev03
+
+dnSpy反编译，写解密脚本：
+
+```python
+Letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ{}_"
+s=""
+s+=Letters[5]
+s+=Letters[11]
+s+=Letters[0]
+s+=Letters[6]
+s+=Letters[26]
+s+=Letters[8]
+s+=Letters[28]
+s+=Letters[11]
+s+=Letters[14]
+s+=Letters[21]
+s+=Letters[4]
+s+=Letters[28]
+s+=Letters[5]
+s+=Letters[14]
+s+=Letters[13]
+s+=Letters[25]
+s+=Letters[24]
+s+=Letters[27]
+print(s) # FLAG{I_LOVE_FONZY}
+```
+
